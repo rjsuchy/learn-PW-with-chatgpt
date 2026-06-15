@@ -1,12 +1,15 @@
-// const { test, expect } = require('@playwright/test');
+// Navigate 
 
-// test('Open Google', async ({ page }) => {
+/* const { test, expect } = require('@playwright/test');
 
-//     await page.goto('https://google.com');
+ test('Open Google', async ({ page }) => {
 
-//     await expect(page).toHaveTitle(/Google/);
+    await page.goto('https://google.com');
 
-// });
+    await expect(page).toHaveTitle(/Google/);
+
+ }); */
+
 
 
 const { test, expect } =
@@ -14,7 +17,10 @@ require('@playwright/test');
 
 test('Login Example', async ({ page }) => {
 
- await page.goto(
+  test.setTimeout(90000);
+ 
+
+await page.goto(
  'https://opensource-demo.orangehrmlive.com/'
  );
 
