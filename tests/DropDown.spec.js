@@ -19,6 +19,8 @@ test('Dropdown Selection Test', async ({ page }) => {
 
 */
 
+
+/*
 import { test, expect } from '@playwright/test';
 
 test('Dropdown test', async ({ page }) => {
@@ -35,4 +37,22 @@ test('Dropdown test', async ({ page }) => {
 });
 
 
+*/
+
+
+const { test, expect } = require('@playwright/test');
+
+test('Dropdown Example', async ({ page }) => {
+
+    await page.goto('https://testautomationpractice.blogspot.com/');
+
+//Select dropdown by visible text
+    await page.selectOption('#country', 'India');
+//Verify selected option
+    await expect(page.locator('#country'))
+    .toHaveValue('india');
+
+
+
+});
   
