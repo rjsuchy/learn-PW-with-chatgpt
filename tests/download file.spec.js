@@ -51,4 +51,38 @@ Get File Name
 Save File
       ↓
 Test Passed ✅
+
+---------------------
+Bonus: Verify File Exists
+
+Create a more advanced version:
+const { test, expect } = require('@playwright/test');
+const fs = require('fs');
+
+test('Download and Verify File', async ({ page }) => {
+
+    await page.goto('https://the-internet.herokuapp.com/download');
+
+    const downloadPromise = page.waitForEvent('download');
+
+    await page.click('text=some-file.txt');
+
+    const download = await downloadPromise;
+
+    const fileName = await download.suggestedFilename();
+
+    const filePath = `downloads/${fileName}`;
+
+    // Save file
+    await download.saveAs(filePath);
+
+    // Verify file exists
+    expect(fs.existsSync(filePath)).toBeTruthy();
+
+    console.log('File downloaded successfully:', fileName);
+
+});
+
+----------------------
+
 */
