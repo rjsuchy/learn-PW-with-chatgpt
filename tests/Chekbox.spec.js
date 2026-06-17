@@ -29,3 +29,20 @@ test('Checkbox Test', async ({ page }) => {
     // await page.pause();
 
 });
+
+
+
+//With Check() 
+/*
+const { test, expect } = require('@playwright/test');
+
+test('Select Male Radio Button', async ({ page }) => {
+
+    await page.goto('https://testautomationpractice.blogspot.com/');
+
+    await page.check('#male');
+
+    await expect(page.locator('#male')).toBeChecked();
+    await expect(page.locator('#female')).not.toBeChecked();
+
+});  */
