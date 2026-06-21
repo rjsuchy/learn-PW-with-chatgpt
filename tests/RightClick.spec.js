@@ -11,6 +11,6 @@ test('Right Click Button', async ({ page }) => {
     });
 
     // Verify result
-    await expect(page.locator('#rightClickMessage'))
+    await expect(page.locator('#rightClickMessage')) 
         .toHaveText('You have done a right click');
 });
