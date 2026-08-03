@@ -1,12 +1,23 @@
 import { test, expect } from '@playwright/test';
 
-test('Check button is enabled', async ({ page }) => {
+test('Verify enabled button and click it', async ({ page }) => {
 
-    await page.goto('https://letcode.in/button');
+  // Open the LetCode Button page
+  await page.goto('https://letcode.in/button');
 
-    const homeBtn = page.locator('#home');
+  // Locate the "Find Location" button
+  const findLocationBtn = page.getByRole('button', { name: 'Find Location' });
 
-    // Verify button is enabled
-    await expect(homeBtn).toBeEnabled();
+  // Verify the button is enabled
+  await expect(findLocationBtn).toBeEnabled();
+
+  // Click the button
+  await findLocationBtn.click();
+
+  // Wait for navigation (if any)
+  await page.waitForLoadState('load');
+
+  // Print current URL
+  console.log("Current URL:", page.url());
 
 });
