@@ -1,3 +1,4 @@
+/*
 const { test, expect } = require('@playwright/test');
 
 test('Check if images are loaded properly', async ({ page }) => {
@@ -49,4 +50,117 @@ test('Check if images are loaded properly', async ({ page }) => {
     // Step 7: Test should fail if broken images exist
     expect(brokenImages).toEqual([]);
 
+});
+
+*/
+
+
+/*
+import { test, expect } from '@playwright/test';
+
+test('Check if images are loaded properly', async ({ page }) => {
+
+    // Step 1: Open DemoQA Broken Images page
+    await page.goto('https://demoqa.com/broken', {
+        waitUntil: 'domcontentloaded'
+    });
+
+    // Step 2: Find all images
+    const images = page.locator('img');
+    const totalImages = await images.count();
+
+    console.log(`Total Images Found: ${totalImages}`);
+
+    const brokenImages = [];
+
+    // Step 3: Check every image
+    for (let i = 0; i < totalImages; i++) {
+
+        const image = images.nth(i);
+
+        // Get image src
+        const src = await image.getAttribute('src');
+
+        // Step 4: Scroll image into view
+        await image.scrollIntoViewIfNeeded();
+
+        // Step 5: Wait until browser finishes loading image
+        await expect.poll(
+            async () => {
+                return await image.evaluate(img => img.complete);
+            },
+            {
+                timeout: 5000
+            }
+        ).toBe(true);
+
+        // Step 6: Get naturalWidth
+        const naturalWidth = await image.evaluate(
+            img => img.naturalWidth
+        );
+
+        console.log(`${src} -> naturalWidth: ${naturalWidth}`);
+
+        // Step 7: Check for broken image
+        if (naturalWidth === 0) {
+            brokenImages.push(src);
+        }
+    }
+
+    console.log('\nBroken Images:');
+    console.log(brokenImages);
+
+    // Step 8: Fail if broken images exist
+    expect(brokenImages).toEqual([]);
+});
+
+*/
+
+import { test, expect } from '@playwright/test';
+
+test('Check if images are loaded properly', async ({ page }) => {
+
+    // Step 1: Open DemoQA
+    await page.goto('https://demoqa.com/broken');
+
+    // Step 2: Find all images
+    const images = page.locator('img');
+
+    const totalImages = await images.count();
+
+    console.log(`Total Images Found: ${totalImages}`);
+
+    // Step 3: Store broken images
+    const brokenImages = [];
+
+    // Step 4: Check every image
+    for (let i = 0; i < totalImages; i++) {
+
+        const image = images.nth(i);
+
+        const src = await image.getAttribute('src');
+
+        // Step 5: Get naturalWidth
+        const naturalWidth = await image.evaluate(
+            img => img.naturalWidth
+        );
+
+        console.log(
+            `${src} -> naturalWidth: ${naturalWidth}`
+        );
+
+        // Step 6: If naturalWidth = 0,
+        // the image is broken
+        if (naturalWidth === 0) {
+            brokenImages.push(src);
+        }
+    }
+
+    // Step 7: Print broken images
+    console.log('\nBroken Images:');
+    console.log(brokenImages);
+
+    // Step 8:
+    // Demo page should contain broken images
+    expect(brokenImages.length).toBeGreaterThan(0);
 });
